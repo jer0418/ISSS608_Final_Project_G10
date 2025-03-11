@@ -7,7 +7,11 @@ website:
     left:
       - href: index.qmd
         text: Home
+        
       - about.qmd
+      
+      - href: Project_Proposal.qmd
+        text: Project Proposal
 
 format:
   html:

@@ -1,0 +1,111 @@
+---
+title: "Project_Proposal"
+---
+
+# **Analyzing the Impact of Weather on Traffic Accidents in Singapore (2022-2024)** 
+
+Group 10 
+
+DING Hong-Yan (01520876), 
+
+KIM Jeounghyun (01496505),  
+
+LIU, Jeremy Junpeng (01505670) 
+
+## **1. Introduction and Motivation** 
+
+Singapore, characterized by its tropical rainforest climate, experiences frequent rainfall and high humidity throughout the year. When raining, driving becomes slightly dangerous due to slippery road, bad vision and traffic jam. Weather conditions play a significant role in road safety. Given that Singapore’s frequent rainfall and high humidity, bad weather conditions may contribute to higher accident rates. 
+
+This project aims to analyze the relationship between weather conditions and traffic accidents in Singapore from the year 2022 to 2024. By combining weather data from multiple meteorological stations and comparing it with traffic accident statistics, we seek to uncover patterns that can inform policy decisions and road safety measures.  
+
+## **2. Objectives** 
+
+The main objective for this project is to use Shiny to build a web enabled visual analysis application to help understand the relation between traffic safety and Singapore’s weather and further to provide recommendations on enhancing transportation safety. To achieve this, we will integrate and standardize weather data from six key meteorological stations across Singapore, calculating monthly averages for rainfall, temperature, and wind speed. 
+
+This enriched dataset will be aligned with detailed traffic accident records—including total accidents, fatalities, injuries, and severity levels—to identify significant correlations and trends between weather conditions and road safety. Ultimately, the project seeks to deliver an interactive, user-friendly dashboard that empowers stakeholders to explore these relationships dynamically, enabling more informed policy decisions and targeted accident prevention strategies. 
+
+### **3. Data Sources** 
+
+The two datasets this project will be using are: 
+
+-   “Singapore's Historical Daily Weather Records” (<https://www.weather.gov.sg/climate-historical-daily/>) 
+
+We will utilize weather data from six meteorological stations in Singapore: Ang Mo Kio, Tuas South, Jurong West, Newton, Changi, and Tai Seng. These stations provide key meteorological measurements, including rainfall (mm), temperature (°C), and wind speed (km/h). 
+
+-   “Road Traffic Accident Casualties, Monthly”(<https://data.gov.sg/datasets?q=&ext_type=dataset&organization=&query=Accident&groups=&page=1&resultId=d_5dec466b08a55497218daf8bafbfe96c)> 
+
+Traffic accident data will be sourced from the Land Transport Authority (LTA) and the Traffic Police, covering monthly accident statistics from 2022 to 2024. The key indicators in this dataset include the total number of accidents, fatalities, injuries, and accident severity levels. 
+
+## **4. Methodology** 
+
+::: panel-tabset
+## Step 1: Data Preprocessing
+
+-   Collect weather data from six stations and compute the monthly **Singapore-wide average** for rainfall, temperature, and wind speed for 3 years. 
+-   Clean and align timestamps with traffic accident records. 
+-   Handle missing values and standardize units.
+
+## Step 2: Exploratory Data Analyst
+
+-   Analyze accident trends over time and observe seasonal patterns. 
+-   Identify relationships between different weather conditions and accident severity.
+
+## Step 3: Data Visualization & Analysis (3 parts)
+
+We will be mainly conducting three key analyses:
+
+#### **Analysis 1: Time-Series Trends** 
+
+-   Compare the monthly trends of weather conditions and accident frequency from 2022-2024. 
+-   Identify high-risk periods where adverse weather correlates with accident spikes. 
+-   Use **line charts & seasonal decomposition**. 
+
+#### **Analysis 2: Correlation Analysis** 
+
+-   Compute statistical correlations (Pearson, Spearman) between weather variables and accident rates. 
+-   Examine which weather factors (rainfall, temperature, wind speed) have the most significant impact. 
+-   Use **scatter plots & heatmaps**. 
+
+#### **Analysis 3: Accident Severity Analysis** 
+
+-   Categorize accidents by severity (minor, major, fatal). 
+
+-   Compare accident severity levels under different weather conditions.
+
+-   Use **bar charts, boxplots, and ANOVA tests**. 
+
+## Step 4: Interactive Dashboard Development (Shiny)
+
+-   Build a **Shiny App** to allow users to explore weather and accident relationships. 
+-   Include **interactive visualizations & filtering options**. 
+:::
+
+## **5. Expected Outcomes** 
+
+-   Identification of key weather-related risk factors affecting traffic safety in Singapore. 
+-   Insights into accident prevention strategies under adverse weather conditions. 
+-   A user-friendly web-based visual analytics tool for policymakers, transportation authorities, and researchers. 
+
+## **6. Tools & Technologies** 
+
+-   **Data Processing**: R (tidyverse, dplyr, lubridate) 
+-   **Visualization**:ggplot2, plotly, leaflet 
+-   **Interactive Dashboard**: Shiny, shinydashboard 
+-   **Statistical Analysis**: correlation tests, ANOVA, regression models 
+
+## **7. Project Timeline & Deliverable** 
+
+|           |                                                        |
+|-----------|--------------------------------------------------------|
+| **Week**  | **Task**                                               |
+| Week 9    | Data cleaning                                          |
+| Week 10   | Exploratory Data Analysis （EDA）                      |
+| Week 11   | Data Visualization and Analysis + Shiny App prototype  |
+| Week 12   | Final testing & documentation & Poster                 |
+
+## **8. Project Deliverables** 
+
+-   **Project GitHub Repository** (Code, datasets, documentation) 
+-   **Shiny App** (Interactive dashboard for data exploration) 
+-   **Project Poster** (Summary of findings) 
+-   **Final Report** (Methodology, results, conclusions) 
