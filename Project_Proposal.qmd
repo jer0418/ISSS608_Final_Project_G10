@@ -54,21 +54,7 @@ The dataset is sourced from the Kaggle, which aggregates accident reports from v
 
 This project will employ the following three analysis methods to investigate the dataset, with each step building upon the insights gained from the previous one.
 
-### Step 1: Time Series Analysis (Province Focus)
-
--   **Objective**: To examine trends and patterns in the data over time, with a particular emphasis on differences across provinces.
-
--   **Approach**:
-
-    -   The data will be organized by province and time periods (e.g., monthly or quarterly) to construct time series specific to each province.
-
-    -   Time series analysis techniques will be applied to detect trends, seasonal variations, or other temporal patterns that may differ between provinces.
-
--   **Expected Outcome**:
-
-    -   A detailed understanding of how the data changes over time within each province, highlighting key trends, seasonal effects, or unusual deviations.
-
-### Step 2: Exploratory Data Analysis (EDA)
+### Step 1: Exploratory Data Analysis (EDA)
 
 -   **Objective**: To investigate the dataset’s key characteristics and uncover relationships between variables.
 
@@ -81,6 +67,20 @@ This project will employ the following three analysis methods to investigate the
 -   **Expected Outcome**:
 
     -   A thorough overview of the dataset’s structure and significant features, providing a foundation of insights to inform the predictive modeling process.
+
+### Step 2: Time Series Analysis (Province Focus)
+
+-   **Objective**: To examine trends and patterns in the data over time, with a particular emphasis on differences across provinces.
+
+-   **Approach**:
+
+    -   The data will be organized by province and time periods (e.g., monthly or quarterly) to construct time series specific to each province.
+
+    -   Time series analysis techniques will be applied to detect trends, seasonal variations, or other temporal patterns that may differ between provinces.
+
+-   **Expected Outcome**:
+
+    -   A detailed understanding of how the data changes over time within each province, highlighting key trends, seasonal effects, or unusual deviations.
 
 ### Step 3: Predictive Modeling
 
