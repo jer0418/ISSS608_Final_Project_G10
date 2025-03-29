@@ -9,9 +9,16 @@ website:
         text: Home
         
       - about.qmd
-      
+     
       - href: Project_Proposal.qmd
         text: Project Proposal
+      
+      - text: "Analysis"
+        menu:
+          - text: "Time_series" 
+            href: "Time_series/Time_series"
+        
+        
 
 format:
   html:

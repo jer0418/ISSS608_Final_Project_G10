@@ -82,5 +82,12 @@
     "title": "Project_Proposal",
     "section": "",
     "text": "The dataset is sourced from the Kaggle, which aggregates accident reports from various agencies nationwide. Spanning 2019 to 2022, this reliable and comprehensive dataset captures incidents from both urban and rural regions, ensuring a representative sample of Thailand’s traffic accident landscape.\nhttps://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022/data"
+  },
+  {
+    "objectID": "Analysis/Time_Series/Time_series.html",
+    "href": "Analysis/Time_Series/Time_series.html",
+    "title": "Time_series",
+    "section": "",
+    "text": "Time_series"
   }
 ]
