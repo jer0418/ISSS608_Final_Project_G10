@@ -1,5 +1,5 @@
 ---
-title: "Project_Proposal"
+title: "Project_Proposal 1"
 ---
 
 # Traffic Accident Analysis in Thailand (2019-2022): A Data-Driven Approach to Enhancing Road Safety
