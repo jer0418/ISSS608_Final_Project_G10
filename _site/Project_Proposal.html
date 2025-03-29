@@ -116,15 +116,20 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#analyzing-the-impact-of-weather-on-traffic-accidents-in-singapore-2022-2024" id="toc-analyzing-the-impact-of-weather-on-traffic-accidents-in-singapore-2022-2024" class="nav-link active" data-scroll-target="#analyzing-the-impact-of-weather-on-traffic-accidents-in-singapore-2022-2024"><strong>Analyzing the Impact of Weather on Traffic Accidents in Singapore (2022-2024)</strong>&nbsp;</a>
+  <li><a href="#traffic-accident-analysis-in-thailand-2019-2022-a-data-driven-approach-to-enhancing-road-safety" id="toc-traffic-accident-analysis-in-thailand-2019-2022-a-data-driven-approach-to-enhancing-road-safety" class="nav-link active" data-scroll-target="#traffic-accident-analysis-in-thailand-2019-2022-a-data-driven-approach-to-enhancing-road-safety">Traffic Accident Analysis in Thailand (2019-2022): A Data-Driven Approach to Enhancing Road Safety</a>
   <ul class="collapse">
   <li><a href="#introduction-and-motivation" id="toc-introduction-and-motivation" class="nav-link" data-scroll-target="#introduction-and-motivation"><strong>1. Introduction and Motivation</strong>&nbsp;</a></li>
-  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives"><strong>2. Objectives</strong>&nbsp;</a>
+  <li><a href="#dataset-overview" id="toc-dataset-overview" class="nav-link" data-scroll-target="#dataset-overview">Dataset Overview</a></li>
+  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives"><strong>3. Objectives</strong>&nbsp;</a></li>
+  <li><a href="#data-sources" id="toc-data-sources" class="nav-link" data-scroll-target="#data-sources"><strong>4. Data Sources</strong>&nbsp;</a></li>
+  <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">5. Methodology</a>
   <ul class="collapse">
-  <li><a href="#data-sources" id="toc-data-sources" class="nav-link" data-scroll-target="#data-sources"><strong>3. Data Sources</strong>&nbsp;</a></li>
+  <li><a href="#step-1-time-series-analysis-province-focus" id="toc-step-1-time-series-analysis-province-focus" class="nav-link" data-scroll-target="#step-1-time-series-analysis-province-focus">Step 1: Time Series Analysis (Province Focus)</a></li>
+  <li><a href="#step-2-exploratory-data-analysis-eda" id="toc-step-2-exploratory-data-analysis-eda" class="nav-link" data-scroll-target="#step-2-exploratory-data-analysis-eda">Step 2: Exploratory Data Analysis (EDA)</a></li>
+  <li><a href="#step-3-predictive-modeling" id="toc-step-3-predictive-modeling" class="nav-link" data-scroll-target="#step-3-predictive-modeling">Step 3: Predictive Modeling</a></li>
+  <li><a href="#step-4-interactive-dashboard-development-shiny" id="toc-step-4-interactive-dashboard-development-shiny" class="nav-link" data-scroll-target="#step-4-interactive-dashboard-development-shiny">Step 4: Interactive Dashboard Development (Shiny)</a></li>
   </ul></li>
-  <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology"><strong>4. Methodology</strong>&nbsp;</a></li>
-  <li><a href="#expected-outcomes" id="toc-expected-outcomes" class="nav-link" data-scroll-target="#expected-outcomes"><strong>5. Expected Outcomes</strong>&nbsp;</a></li>
+  <li><a href="#expected-outcomes" id="toc-expected-outcomes" class="nav-link" data-scroll-target="#expected-outcomes"><strong>5. Expected Outcomes</strong></a></li>
   <li><a href="#tools-technologies" id="toc-tools-technologies" class="nav-link" data-scroll-target="#tools-technologies"><strong>6. Tools &amp; Technologies</strong>&nbsp;</a></li>
   <li><a href="#project-timeline-deliverable" id="toc-project-timeline-deliverable" class="nav-link" data-scroll-target="#project-timeline-deliverable"><strong>7. Project Timeline &amp; Deliverable</strong>&nbsp;</a></li>
   <li><a href="#project-deliverables" id="toc-project-deliverables" class="nav-link" data-scroll-target="#project-deliverables"><strong>8. Project Deliverables</strong>&nbsp;</a></li>
@@ -154,90 +159,104 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="analyzing-the-impact-of-weather-on-traffic-accidents-in-singapore-2022-2024" class="level1">
-<h1><strong>Analyzing the Impact of Weather on Traffic Accidents in Singapore (2022-2024)</strong>&nbsp;</h1>
+<section id="traffic-accident-analysis-in-thailand-2019-2022-a-data-driven-approach-to-enhancing-road-safety" class="level1">
+<h1>Traffic Accident Analysis in Thailand (2019-2022): A Data-Driven Approach to Enhancing Road Safety</h1>
 <p>Group 10&nbsp;</p>
 <p>DING Hong-Yan&nbsp;(01520876),&nbsp;</p>
 <p>KIM Jeounghyun&nbsp;(01496505), &nbsp;</p>
 <p>LIU, Jeremy Junpeng&nbsp;(01505670)&nbsp;</p>
 <section id="introduction-and-motivation" class="level2">
 <h2 class="anchored" data-anchor-id="introduction-and-motivation"><strong>1. Introduction and Motivation</strong>&nbsp;</h2>
-<p>Singapore, characterized by its tropical rainforest climate, experiences frequent rainfall and high humidity throughout the year. When raining, driving becomes slightly dangerous due to slippery road, bad vision and traffic jam. Weather conditions play a significant role in road safety. Given that Singapore’s frequent rainfall and high humidity, bad weather conditions may contribute to higher accident rates.&nbsp;</p>
-<p>This project aims to analyze the relationship between weather conditions and traffic accidents in Singapore from the year 2022 to 2024. By combining weather data from multiple meteorological stations and comparing it with traffic accident statistics, we seek to uncover patterns that can inform policy decisions and road safety measures. &nbsp;</p>
+<p>Traffic accidents represent a pressing public health and safety challenge in Thailand, resulting in substantial loss of life, injuries, and economic costs. With over 20,000 road traffic fatalities annually, Thailand ranks among the highest globally for road traffic mortality, according to the World Health Organization. This project is motivated by the urgent need to understand the underlying patterns and causes of these incidents to inform evidence-based interventions. By analyzing a comprehensive dataset of traffic accidents from 2019 to 2022, this study aims to uncover actionable insights that can guide policymakers, traffic authorities, and communities in reducing accident rates and mitigating their devastating impacts.</p>
+</section>
+<section id="dataset-overview" class="level2">
+<h2 class="anchored" data-anchor-id="dataset-overview">Dataset Overview</h2>
+<p>The dataset for this project covers traffic accidents in Thailand from 2019 to 2022, providing a detailed and multifaceted view of incidents across the country. It includes the following key attributes:</p>
+<ul>
+<li><p><strong>Temporal Data</strong>: Dates and times of incidents and reports (incident_datetime, report_datetime).</p></li>
+<li><p><strong>Geographical Data</strong>: Province names in Thai and English (province_th, province_en), along with latitude and longitude coordinates (latitude, longitude)</p></li>
+<li><p><strong>Accident Details</strong>: Information on vehicle types (vehicle_type), presumed causes (presumed_cause), accident types (accident_type), number of vehicles involved (number_of_vehicles_involved), fatalities (number_of_fatalities), and injuries (number_of_injuries).</p></li>
+<li><p><strong>Environmental Factors</strong>: Weather conditions (weather_condition), road descriptions (road_description), and slope descriptions (slope_description).</p></li>
+<li><p><strong>Administrative Data</strong>: Reporting agency (agency) and route details (route).</p></li>
+</ul>
+<p>This dataset’s breadth and depth make it an invaluable resource for analyzing spatial, temporal, and causal trends in traffic accidents across Thailand.</p>
 </section>
 <section id="objectives" class="level2">
-<h2 class="anchored" data-anchor-id="objectives"><strong>2. Objectives</strong>&nbsp;</h2>
-<p>The main objective for this project is to use Shiny to build a web enabled visual analysis application to help understand the relation between traffic safety and Singapore’s weather and further to provide recommendations on enhancing transportation safety. To achieve this, we will integrate and standardize weather data from six key meteorological stations across Singapore, calculating monthly averages for rainfall, temperature, and wind speed.&nbsp;</p>
-<p>This enriched dataset will be aligned with detailed traffic accident records—including total accidents, fatalities, injuries, and severity levels—to identify significant correlations and trends between weather conditions and road safety. Ultimately, the project seeks to deliver an interactive, user-friendly dashboard that empowers stakeholders to explore these relationships dynamically, enabling more informed policy decisions and targeted accident prevention strategies.&nbsp;</p>
-<section id="data-sources" class="level3">
-<h3 class="anchored" data-anchor-id="data-sources"><strong>3. Data Sources</strong>&nbsp;</h3>
-<p>The two datasets this project will be using are:&nbsp;</p>
+<h2 class="anchored" data-anchor-id="objectives"><strong>3. Objectives</strong>&nbsp;</h2>
+<p>The primary goals of this project are:</p>
 <ul>
-<li>“Singapore’s Historical Daily Weather Records” (<a href="https://www.weather.gov.sg/climate-historical-daily/" class="uri">https://www.weather.gov.sg/climate-historical-daily/</a>)&nbsp;</li>
+<li><p>To identify trends and patterns in traffic accidents across provinces and time periods.</p></li>
+<li><p>To investigate the relationships between accident severity and factors such as weather, and road conditions.</p></li>
+<li><p>To develop predictive models that forecast accident likelihood or severity, enabling proactive safety measures.</p></li>
+<li><p>To deliver an interactive dashboard that allows stakeholders to explore the data and insights dynamically.</p></li>
 </ul>
-<p>We will utilize weather data from six meteorological stations in Singapore: Ang Mo Kio, Tuas South, Jurong West, Newton, Changi, and Tai Seng. These stations provide key meteorological measurements, including rainfall (mm), temperature (°C), and wind speed (km/h).&nbsp;</p>
-<ul>
-<li>“Road Traffic Accident Casualties, Monthly”(<a href="https://data.gov.sg/datasets?q=&amp;ext_type=dataset&amp;organization=&amp;query=Accident&amp;groups=&amp;page=1&amp;resultId=d_5dec466b08a55497218daf8bafbfe96c)" class="uri">https://data.gov.sg/datasets?q=&amp;ext_type=dataset&amp;organization=&amp;query=Accident&amp;groups=&amp;page=1&amp;resultId=d_5dec466b08a55497218daf8bafbfe96c)</a>&nbsp;</li>
-</ul>
-<p>Traffic accident data will be sourced from the Land Transport Authority (LTA) and the Traffic Police, covering monthly accident statistics from 2022 to 2024. The key indicators in this dataset include the total number of accidents, fatalities, injuries, and accident severity levels.&nbsp;</p>
 </section>
+<section id="data-sources" class="level2">
+<h2 class="anchored" data-anchor-id="data-sources"><strong>4. Data Sources</strong>&nbsp;</h2>
+<p>The dataset is sourced from the Kaggle, which aggregates accident reports from various agencies nationwide. Spanning 2019 to 2022, this reliable and comprehensive dataset captures incidents from both urban and rural regions, ensuring a representative sample of Thailand’s traffic accident landscape.</p>
+<p><a href="https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022/data" class="uri">https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022/data</a></p>
 </section>
 <section id="methodology" class="level2">
-<h2 class="anchored" data-anchor-id="methodology"><strong>4. Methodology</strong>&nbsp;</h2>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Step 1: Data Preprocessing</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Step 2: Exploratory Data Analyst</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Step 3: Data Visualization &amp; Analysis (3 parts)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">Step 4: Interactive Dashboard Development (Shiny)</a></li></ul>
-<div class="tab-content">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<h2 class="anchored" data-anchor-id="methodology">5. Methodology</h2>
+<p>This project will employ the following three analysis methods to investigate the dataset, with each step building upon the insights gained from the previous one.</p>
+<section id="step-1-time-series-analysis-province-focus" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-time-series-analysis-province-focus">Step 1: Time Series Analysis (Province Focus)</h3>
 <ul>
-<li>Collect weather data from six stations and compute the monthly <strong>Singapore-wide average</strong> for rainfall, temperature, and wind speed for 3 years.&nbsp;</li>
-<li>Clean and align timestamps with traffic accident records.&nbsp;</li>
-<li>Handle missing values and standardize units.</li>
-</ul>
-</div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<li><p><strong>Objective</strong>: To examine trends and patterns in the data over time, with a particular emphasis on differences across provinces.</p></li>
+<li><p><strong>Approach</strong>:</p>
 <ul>
-<li>Analyze accident trends over time and observe seasonal patterns.&nbsp;</li>
-<li>Identify relationships between different weather conditions and accident severity.</li>
-</ul>
-</div>
-<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
-<p>We will be mainly conducting three key analyses:</p>
-<section id="analysis-1-time-series-trends" class="level4">
-<h4 class="anchored" data-anchor-id="analysis-1-time-series-trends"><strong>Analysis 1: Time-Series Trends</strong>&nbsp;</h4>
+<li><p>The data will be organized by province and time periods (e.g., monthly or quarterly) to construct time series specific to each province.</p></li>
+<li><p>Time series analysis techniques will be applied to detect trends, seasonal variations, or other temporal patterns that may differ between provinces.</p></li>
+</ul></li>
+<li><p><strong>Expected Outcome</strong>:</p>
 <ul>
-<li>Compare the monthly trends of weather conditions and accident frequency from 2022-2024.&nbsp;</li>
-<li>Identify high-risk periods where adverse weather correlates with accident spikes.&nbsp;</li>
-<li>Use <strong>line charts &amp; seasonal decomposition</strong>.&nbsp;</li>
+<li>A detailed understanding of how the data changes over time within each province, highlighting key trends, seasonal effects, or unusual deviations.</li>
+</ul></li>
 </ul>
 </section>
-<section id="analysis-2-correlation-analysis" class="level4">
-<h4 class="anchored" data-anchor-id="analysis-2-correlation-analysis"><strong>Analysis 2: Correlation Analysis</strong>&nbsp;</h4>
+<section id="step-2-exploratory-data-analysis-eda" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-exploratory-data-analysis-eda">Step 2: Exploratory Data Analysis (EDA)</h3>
 <ul>
-<li>Compute statistical correlations (Pearson, Spearman) between weather variables and accident rates.&nbsp;</li>
-<li>Examine which weather factors (rainfall, temperature, wind speed) have the most significant impact.&nbsp;</li>
-<li>Use <strong>scatter plots &amp; heatmaps</strong>.&nbsp;</li>
+<li><p><strong>Objective</strong>: To investigate the dataset’s key characteristics and uncover relationships between variables.</p></li>
+<li><p><strong>Approach</strong>:</p>
+<ul>
+<li><p>Descriptive statistics, such as mean, median, and standard deviation, will be calculated for important variables to summarize their central tendencies and spread.</p></li>
+<li><p>Visualization tools, including histograms, box plots, or scatter plots, will be used to examine the distributions of variables and identify potential patterns or correlations in the data</p></li>
+</ul></li>
+<li><p><strong>Expected Outcome</strong>:</p>
+<ul>
+<li>A thorough overview of the dataset’s structure and significant features, providing a foundation of insights to inform the predictive modeling process.</li>
+</ul></li>
 </ul>
 </section>
-<section id="analysis-3-accident-severity-analysis" class="level4">
-<h4 class="anchored" data-anchor-id="analysis-3-accident-severity-analysis"><strong>Analysis 3: Accident Severity Analysis</strong>&nbsp;</h4>
+<section id="step-3-predictive-modeling" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-predictive-modeling">Step 3: Predictive Modeling</h3>
 <ul>
-<li><p>Categorize accidents by severity (minor, major, fatal).&nbsp;</p></li>
-<li><p>Compare accident severity levels under different weather conditions.</p></li>
-<li><p>Use <strong>bar charts, boxplots, and ANOVA tests</strong>.&nbsp;</p></li>
+<li><p><strong>Objective</strong>: To develop a model that forecasts future outcomes or trends using historical data.</p></li>
+<li><p><strong>Approach</strong>:</p>
+<ul>
+<li><p>Relevant features will be chosen based on findings from the EDA, ensuring they align with the goals of the prediction task.</p></li>
+<li><p>The dataset will be divided into training and testing sets to enable model development and validation.</p></li>
+<li><p>A machine learning algorithm will be selected and trained on the training data to predict the target variable.</p></li>
+<li><p>The model’s performance will be evaluated using suitable metrics (e.g., accuracy, precision, recall) to measure its effectiveness and reliability.</p></li>
+</ul></li>
+<li><p><strong>Expected Outcome</strong>:</p>
+<ul>
+<li>A working predictive model capable of accurately forecasting the target variable, accompanied by an assessment of its performance and potential limitations</li>
+</ul></li>
 </ul>
 </section>
-</div>
-<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<section id="step-4-interactive-dashboard-development-shiny" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-interactive-dashboard-development-shiny">Step 4: Interactive Dashboard Development (Shiny)</h3>
+</section>
+</section>
+<section id="expected-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="expected-outcomes"><strong>5. Expected Outcomes</strong></h2>
 <ul>
 <li>Build a <strong>Shiny App</strong> to allow users to explore weather and accident relationships.&nbsp;</li>
 <li>Include <strong>interactive visualizations &amp; filtering options</strong>.&nbsp;</li>
 </ul>
-</div>
-</div>
-</div>
-</section>
-<section id="expected-outcomes" class="level2">
-<h2 class="anchored" data-anchor-id="expected-outcomes"><strong>5. Expected Outcomes</strong>&nbsp;</h2>
+<!-- -->
 <ul>
 <li>Identification of key weather-related risk factors affecting traffic safety in Singapore.&nbsp;</li>
 <li>Insights into accident prevention strategies under adverse weather conditions.&nbsp;</li>

@@ -2,7 +2,7 @@
 title: "Project_Proposal"
 ---
 
-# **Analyzing the Impact of Weather on Traffic Accidents in Singapore (2022-2024)** 
+# Traffic Accident Analysis in Thailand (2019-2022): A Data-Driven Approach to Enhancing Road Safety
 
 Group 10 
 
@@ -14,73 +14,98 @@ LIU, Jeremy Junpeng (01505670) 
 
 ## **1. Introduction and Motivation** 
 
-Singapore, characterized by its tropical rainforest climate, experiences frequent rainfall and high humidity throughout the year. When raining, driving becomes slightly dangerous due to slippery road, bad vision and traffic jam. Weather conditions play a significant role in road safety. Given that Singapore’s frequent rainfall and high humidity, bad weather conditions may contribute to higher accident rates. 
+Traffic accidents represent a pressing public health and safety challenge in Thailand, resulting in substantial loss of life, injuries, and economic costs. With over 20,000 road traffic fatalities annually, Thailand ranks among the highest globally for road traffic mortality, according to the World Health Organization. This project is motivated by the urgent need to understand the underlying patterns and causes of these incidents to inform evidence-based interventions. By analyzing a comprehensive dataset of traffic accidents from 2019 to 2022, this study aims to uncover actionable insights that can guide policymakers, traffic authorities, and communities in reducing accident rates and mitigating their devastating impacts.
 
-This project aims to analyze the relationship between weather conditions and traffic accidents in Singapore from the year 2022 to 2024. By combining weather data from multiple meteorological stations and comparing it with traffic accident statistics, we seek to uncover patterns that can inform policy decisions and road safety measures.  
+## Dataset Overview
 
-## **2. Objectives** 
+The dataset for this project covers traffic accidents in Thailand from 2019 to 2022, providing a detailed and multifaceted view of incidents across the country. It includes the following key attributes:
 
-The main objective for this project is to use Shiny to build a web enabled visual analysis application to help understand the relation between traffic safety and Singapore’s weather and further to provide recommendations on enhancing transportation safety. To achieve this, we will integrate and standardize weather data from six key meteorological stations across Singapore, calculating monthly averages for rainfall, temperature, and wind speed. 
+-   **Temporal Data**: Dates and times of incidents and reports (incident_datetime, report_datetime).
 
-This enriched dataset will be aligned with detailed traffic accident records—including total accidents, fatalities, injuries, and severity levels—to identify significant correlations and trends between weather conditions and road safety. Ultimately, the project seeks to deliver an interactive, user-friendly dashboard that empowers stakeholders to explore these relationships dynamically, enabling more informed policy decisions and targeted accident prevention strategies. 
+-   **Geographical Data**: Province names in Thai and English (province_th, province_en), along with latitude and longitude coordinates (latitude, longitude)
 
-### **3. Data Sources** 
+-   **Accident Details**: Information on vehicle types (vehicle_type), presumed causes (presumed_cause), accident types (accident_type), number of vehicles involved (number_of_vehicles_involved), fatalities (number_of_fatalities), and injuries (number_of_injuries).
 
-The two datasets this project will be using are: 
+-   **Environmental Factors**: Weather conditions (weather_condition), road descriptions (road_description), and slope descriptions (slope_description).
 
--   “Singapore's Historical Daily Weather Records” (<https://www.weather.gov.sg/climate-historical-daily/>) 
+-   **Administrative Data**: Reporting agency (agency) and route details (route).
 
-We will utilize weather data from six meteorological stations in Singapore: Ang Mo Kio, Tuas South, Jurong West, Newton, Changi, and Tai Seng. These stations provide key meteorological measurements, including rainfall (mm), temperature (°C), and wind speed (km/h). 
+This dataset's breadth and depth make it an invaluable resource for analyzing spatial, temporal, and causal trends in traffic accidents across Thailand.
 
--   “Road Traffic Accident Casualties, Monthly”(<https://data.gov.sg/datasets?q=&ext_type=dataset&organization=&query=Accident&groups=&page=1&resultId=d_5dec466b08a55497218daf8bafbfe96c)> 
+## **3. Objectives** 
 
-Traffic accident data will be sourced from the Land Transport Authority (LTA) and the Traffic Police, covering monthly accident statistics from 2022 to 2024. The key indicators in this dataset include the total number of accidents, fatalities, injuries, and accident severity levels. 
+The primary goals of this project are:
 
-## **4. Methodology** 
+-   To identify trends and patterns in traffic accidents across provinces and time periods.
 
-::: panel-tabset
-## Step 1: Data Preprocessing
+-   To investigate the relationships between accident severity and factors such as weather, and road conditions.
 
--   Collect weather data from six stations and compute the monthly **Singapore-wide average** for rainfall, temperature, and wind speed for 3 years. 
--   Clean and align timestamps with traffic accident records. 
--   Handle missing values and standardize units.
+-   To develop predictive models that forecast accident likelihood or severity, enabling proactive safety measures.
 
-## Step 2: Exploratory Data Analyst
+-   To deliver an interactive dashboard that allows stakeholders to explore the data and insights dynamically.
 
--   Analyze accident trends over time and observe seasonal patterns. 
--   Identify relationships between different weather conditions and accident severity.
+## **4. Data Sources** 
 
-## Step 3: Data Visualization & Analysis (3 parts)
+The dataset is sourced from the Kaggle, which aggregates accident reports from various agencies nationwide. Spanning 2019 to 2022, this reliable and comprehensive dataset captures incidents from both urban and rural regions, ensuring a representative sample of Thailand's traffic accident landscape.
 
-We will be mainly conducting three key analyses:
+<https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022/data>
 
-#### **Analysis 1: Time-Series Trends** 
+## 5. Methodology
 
--   Compare the monthly trends of weather conditions and accident frequency from 2022-2024. 
--   Identify high-risk periods where adverse weather correlates with accident spikes. 
--   Use **line charts & seasonal decomposition**. 
+This project will employ the following three analysis methods to investigate the dataset, with each step building upon the insights gained from the previous one.
 
-#### **Analysis 2: Correlation Analysis** 
+### Step 1: Time Series Analysis (Province Focus)
 
--   Compute statistical correlations (Pearson, Spearman) between weather variables and accident rates. 
--   Examine which weather factors (rainfall, temperature, wind speed) have the most significant impact. 
--   Use **scatter plots & heatmaps**. 
+-   **Objective**: To examine trends and patterns in the data over time, with a particular emphasis on differences across provinces.
 
-#### **Analysis 3: Accident Severity Analysis** 
+-   **Approach**:
 
--   Categorize accidents by severity (minor, major, fatal). 
+    -   The data will be organized by province and time periods (e.g., monthly or quarterly) to construct time series specific to each province.
 
--   Compare accident severity levels under different weather conditions.
+    -   Time series analysis techniques will be applied to detect trends, seasonal variations, or other temporal patterns that may differ between provinces.
 
--   Use **bar charts, boxplots, and ANOVA tests**. 
+-   **Expected Outcome**:
 
-## Step 4: Interactive Dashboard Development (Shiny)
+    -   A detailed understanding of how the data changes over time within each province, highlighting key trends, seasonal effects, or unusual deviations.
+
+### Step 2: Exploratory Data Analysis (EDA)
+
+-   **Objective**: To investigate the dataset’s key characteristics and uncover relationships between variables.
+
+-   **Approach**:
+
+    -   Descriptive statistics, such as mean, median, and standard deviation, will be calculated for important variables to summarize their central tendencies and spread.
+
+    -   Visualization tools, including histograms, box plots, or scatter plots, will be used to examine the distributions of variables and identify potential patterns or correlations in the data
+
+-   **Expected Outcome**:
+
+    -   A thorough overview of the dataset’s structure and significant features, providing a foundation of insights to inform the predictive modeling process.
+
+### Step 3: Predictive Modeling
+
+-   **Objective**: To develop a model that forecasts future outcomes or trends using historical data.
+
+-   **Approach**:
+
+    -   The dataset will be divided into training and testing sets to enable model development and validation.
+
+    -   A machine learning algorithm will be selected and trained on the training data to predict the target variable.
+
+    -   The model’s performance will be evaluated using suitable metrics (e.g., accuracy, precision, recall) to measure its effectiveness and reliability.
+
+-   **Expected Outcome**:
+
+    -   A working predictive model capable of accurately forecasting the target variable, accompanied by an assessment of its performance and potential limitations
+
+### Step 4: Interactive Dashboard Development (Shiny)
+
+## **5. Expected Outcomes**
 
 -   Build a **Shiny App** to allow users to explore weather and accident relationships. 
 -   Include **interactive visualizations & filtering options**. 
-:::
 
-## **5. Expected Outcomes** 
+<!-- -->
 
 -   Identification of key weather-related risk factors affecting traffic safety in Singapore. 
 -   Insights into accident prevention strategies under adverse weather conditions. 
