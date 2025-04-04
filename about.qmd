@@ -1,5 +1,5 @@
 ---
-title: "About"
+title: "About Us"
 ---
 
 This is the website for Group 10's [Visual Analytics Project](https://isss608-ay2024-25jan.netlify.app/vaproject).
