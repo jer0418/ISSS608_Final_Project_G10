@@ -1,0 +1,434 @@
+---
+title: "Exploratory Data Analysis"
+author: "Ding Hong Yan"
+date-modified: "last-modified" 
+execute:
+  echo: true
+  eval: true
+  warning: false
+  freeze: true
+---
+
+## **1. Overview**
+
+### **Project Brief**
+
+This study aims to explore the potential factors influencing the occurrence of traffic accidents in Thailand through exploratory data analysis (EDA), revealing underlying patterns and risk distributions. Utilizing road accident data from Thailand spanning 2019 to 2022, the analysis will focus on the following aspects:
+
+-   **Temporal Factors** Examine accident timings by year, month, and day to identify seasonal trends and peak periods, including potential impacts from holidays and special events.
+
+-   **Accident Types and Severity**\
+    Categorize accidents (e.g., collisions, rollovers, rear-end crashes) and assess severity through casualty and damage statistics; explore correlations with time and location.
+
+-   **Other Potential Influencing Factors**\
+    Investigate additional variables like weather, road conditions, and vehicle types to evaluate their effects on accident occurrences and interactions.
+
+Overall, this EDA will use visualization tools and statistical methods to analyze traffic accidents in Thailand. The goal is to identify key factors affecting accidents and provide data-driven insights to support traffic safety improvements and policy development.
+
+## **2. Data Preparation**
+
+### **2.1 Install and launch R packages**
+
+We load the following R packages using the `pacman::p_load()` function:
+
+-   [**tidyverse**](https://www.tidyverse.org/): Core collection of R packages designed for data science
+
+-   [**ggthemes**](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/): to use additional themes for ggplot2
+
+-   [**patchwork**](https://patchwork.data-imaginist.com/): to prepare composite figure created using ggplot2
+
+-   [**ggridges**](https://cran.r-project.org/web/packages/ggridges/vignettes/introduction.html): to plot ridgeline plots
+
+-   [**ggdist**](https://mjskay.github.io/ggdist/): for visualizations of distributions and uncertainty
+
+-   [**scales**](https://scales.r-lib.org/): provides the internal scaling infrastructure used by ggplot2
+
+-   [**plotly**](https://plotly.com/ggplot2/getting-started/)**:** R library for plotting interactive statistical graphs
+
+-   [**ggstatsplot**](https://indrajeetpatil.github.io/ggstatsplot/): Based Plots with Statistical Details
+
+-   [**ggpubr**](https://github.com/kassambara/ggpubr): For publication-ready plots
+
+```{r}
+pacman::p_load(tidyverse,ggthemes,
+               ggridges, ggdist,
+               patchwork, scales,
+               corrplot, ggstatsplot, 
+               plotly,ggpubr,
+               performance, kableExtra,
+               lubridate)
+```
+
+### **2.2 Import Data**
+
+This project analyzes Thailand's road accident dataset, covering nationwide traffic incidents from 2019 to 2022, including their time, location, and characteristics.
+
+```{r}
+data <- read.csv("data/thai_road_accident_2019_2022.csv")
+```
+
+### **2.3 Overview of the data**
+
+The dataset consists of 81,735 observations and multiple variables. Each row details a recorded road accident event in Thailand between 2019 and 2022, including the date, location, casualties, and other relevant characteristics of the incident.
+
+#### **Use `head()` to view data**
+
+```{r}
+head(data)
+```
+
+We find that there are several columns written by Thai language, so we have to clean the data before we use it. The code below can help us.
+
+```{r}
+data <- subset(data, select = -c(province_th, route))
+```
+
+Check the data again
+
+```{r}
+head(data)
+```
+
+Next, we will check if there is any missing value in our columns.
+
+```{r}
+# check missing values
+missing_values <- colSums(is.na(data)) 
+
+missing_values_only <- missing_values[missing_values > 0]
+
+missing_values_only %>% kable() 
+```
+
+Check the pattern of missing values: Both latitude and longitude have 359 missing values, which may indicate that these missing values occur in the same rows (e.g., some accident records completely lack location coordinates). You can verify this by checking:
+
+```{r}
+sum(is.na(data$latitude) & is.na(data$longitude))
+```
+
+Since the missing value is only 0.439%, we can remove the missing value.
+
+```{r}
+data_clean <- na.omit(data)
+colSums(is.na(data_clean))
+```
+
+#### **Use `duplicate()` to check for duplicates**
+
+There are no duplicate entries in the dataset.
+
+```{r}
+data[duplicated(data_clean),]
+```
+
+Check the type of data
+
+```{r}
+str(data_clean)
+```
+
+Change the data type
+
+```{r}
+data_clean$incident_datetime <- as.POSIXct(data_clean$incident_datetime, format = "%Y-%m-%d %H:%M:%S")
+data_clean$report_datetime <- as.POSIXct(data_clean$report_datetime, format = "%Y-%m-%d %H:%M:%S")
+
+
+data_clean$province_en <- as.factor(data_clean$province_en)
+data_clean$agency <- as.factor(data_clean$agency)
+data_clean$vehicle_type <- as.factor(data_clean$vehicle_type)
+data_clean$presumed_cause <- as.factor(data_clean$presumed_cause)
+data_clean$accident_type <- as.factor(data_clean$accident_type)
+data_clean$weather_condition <- as.factor(data_clean$weather_condition)
+data_clean$road_description <- as.factor(data_clean$road_description)
+data_clean$slope_description <- as.factor(data_clean$slope_description)
+
+
+str(data_clean)
+```
+
+## 3. Exploratory Data Analysis
+
+### 3.1 Overview of Accidents by Time
+
+#### 3.1.1 Overview of Accidents by Year
+
+```{r}
+data_clean$year <- year(data_clean$incident_datetime)
+
+ggplot(data_clean, aes(x = as.factor(year))) +
+  geom_bar(fill = "lightblue") +
+  labs(title = "Number of Accidents by Year", x = "Year", y = "Count")
+
+```
+
+This chart illustrates the annual distribution of road accidents in Thailand from 2019 to 2022. The chart is a histogram, with the X-axis representing the years (2019 to 2022) and the Y-axis representing the number of accidents (Count). From the chart, we can observe the following:
+
+-   In 2019, the number of accidents was approximately 18,000, slightly lower than in the following years.
+
+-   From 2020 to 2022, the number of accidents remained relatively stable, with around 20,000 accidents each year, indicating a slight increase and stabilization over these three years.
+
+This chart provides a preliminary insight into the trend of road accidents in Thailand during this period, laying the groundwork for further analysis of accident causes or the development of traffic safety policies.
+
+#### 3.1.2 Overview of Accidents by Month
+
+```{r}
+data_clean$month <- month(data_clean$incident_datetime, label = TRUE)  
+
+ggplot(data_clean, aes(x = month)) +
+  geom_bar(fill = "lightgreen") +
+  labs(title = "Number of Accidents by Month", x = "Month", y = "Count")
+```
+
+This chart illustrates the monthly distribution of road accidents in Thailand from 2019 to 2022. The chart is a histogram, with the X-axis representing the months (January to December) and the Y-axis representing the number of accidents (Count). From the chart, we can observe the following:
+
+-   The number of accidents is relatively evenly distributed throughout the year, but certain months show noticeable peaks.
+
+-   February and December have the highest number of accidents, approaching 9,000, possibly due to February being the shortest month yet having a high accident frequency, or December being a peak holiday season.
+
+-   The number of accidents in other months mostly ranges between 6,000 and 7,000, indicating a relatively stable accident frequency.
+
+This chart highlights the seasonal patterns of road accidents in Thailand, providing insights for further analysis of the causes behind the increase in accidents during specific months.
+
+### 3.2 Overview of Accidents by Province
+
+```{r}
+#|fig-width: 12
+#|fig-height: 10
+p <- ggplot(data_clean, aes(x = province_en)) +
+  geom_bar(fill = "skyblue") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(title = "Number of Accidents by Province", x = "Province", y = "Count")
+
+
+p_plotly <- ggplotly(p) %>%
+  layout(xaxis = list(tickmode = "array", tickvals = c(), ticktext = c()))
+
+p_plotly
+```
+
+This chart illustrates the distribution of road accidents in Thailand by province from 2019 to 2022. The chart is a histogram, with the X-axis representing the provinces (Province) and the Y-axis representing the number of accidents (Count). From the chart, we can observe the following:
+
+-   Bangkok has the highest number of accidents, with 6,089 incidents, significantly surpassing other provinces, indicating a high accident frequency in Thailand’s capital and transportation hub.
+
+-   The number of accidents in other provinces mostly ranges between 0 and 2,000, with a more scattered distribution. Some provinces, such as Chiang Mai, also show relatively higher accident numbers.
+
+-   Overall, there is a significant variation in accident numbers across provinces, reflecting the influence of regional traffic conditions and population density.
+
+This chart highlights the regional distribution patterns of road accidents in Thailand, providing insights for developing targeted traffic safety measures in high-accident provinces.
+
+### 3.3 Overview of Accidents by Vehicle Type
+
+```{r}
+ggplot(data_clean, aes(x = vehicle_type)) +
+  geom_bar(fill = "lightgreen") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Number of Accidents by Vehicle Type", x = "Vehicle Type", y = "Count")
+```
+
+This chart illustrates the distribution of road accidents in Thailand by vehicle type from 2019 to 2022. The chart is a histogram, with the X-axis representing the vehicle types (Vehicle Type) and the Y-axis representing the number of accidents (Count). From the chart, we can observe the following:
+
+-   The 4-wheel pickup truck has the highest number of accidents, exceeding 25,000 incidents, indicating its dominant role in road accidents in Thailand.
+
+-   Private/passenger cars and motorized tricycles also have high accident numbers, approaching 15,000 and 10,000 incidents respectively, reflecting their widespread use and associated risks.
+
+-   Other vehicle types, such as bicycles and trailers with trucks, have fewer accidents, mostly below 1,000 incidents.
+
+This chart highlights the involvement of different vehicle types in road accidents in Thailand, providing insights for developing safety measures targeting high-risk vehicles.
+
+### 3.4 Overview of Accidents by Presumed cause
+
+```{r}
+ggplot(data_clean, aes(x = presumed_cause)) +
+  geom_bar(fill = "salmon") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Number of Accidents by Presumed Cause", x = "Presumed Cause", y = "Count")
+```
+
+Since there are too many different causes in this columns but most of them are not the main reason for accident, we will focus on those have high count value.
+
+```{r}
+#|fig-width: 12
+#|fig-height: 10
+cause_counts <- data_clean %>%
+  count(presumed_cause) %>%
+  rename(count = n)
+
+threshold <- 1000
+significant_causes <- cause_counts %>%
+  filter(count > threshold)
+
+data_filtered <- data_clean %>%
+  filter(presumed_cause %in% significant_causes$presumed_cause)
+
+
+p <- ggplot(data_filtered, aes(x = reorder(presumed_cause, -table(presumed_cause)[presumed_cause]))) +
+  geom_bar(fill = "salmon") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Number of Accidents by Presumed Cause", x = "Presumed Cause", y = "Count")
+
+
+ggplotly(p)
+```
+
+This chart illustrates the distribution of road accidents in Thailand by presumed cause from 2019 to 2022. The chart is a histogram, with the X-axis representing the presumed causes (Presumed Cause) and the Y-axis representing the number of accidents (Count). From the chart, we can observe the following:
+
+-   Speeding is the leading cause of accidents, with over 60,000 incidents, far exceeding other causes, highlighting the severe impact of speeding on road accidents in Thailand.
+
+-   Other causes, such as animals, falling asleep, vehicle equipment failure, and driving under the influence of alcohol, have relatively fewer accidents, all below 5,000 incidents.
+
+-   Overall, speeding stands out as the primary challenge for road safety in Thailand, while other causes have a relatively minor impact.
+
+This chart highlights the main causes of road accidents in Thailand, providing insights for developing targeted traffic safety policies.
+
+### 3.5 Overview of Accidents by Weather condition
+
+```{r}
+ggplot(data_clean, aes(x = weather_condition)) +
+  geom_bar(fill = "lightcoral") +
+  labs(title = "Number of Accidents by Weather Condition", x = "Weather Condition", y = "Count")
+```
+
+This chart illustrates the distribution of road accidents in Thailand by weather condition from 2019 to 2022. The chart is a histogram, with the X-axis representing the weather conditions (Weather Condition) and the Y-axis representing the number of accidents (Count). From the chart, we can observe the following:
+
+-   The majority of accidents occur under clear weather conditions, with over 60,000 incidents, indicating that most accidents happen in good weather.
+
+-   Rainy weather accounts for around 10,000 accidents, which is notable but significantly lower compared to clear weather.
+
+-   Other weather conditions, such as dark, foggy, and land slide/natural disaster, have minimal accidents, all below 1,000 incidents, showing a negligible impact.
+
+This chart suggests that weather conditions may not have a significant impact on road accidents in Thailand, as the vast majority of accidents occur in clear weather, while adverse weather conditions contribute to relatively few incidents.
+
+### 3.6 Severity of Accidents
+
+#### 3.6.1 Fatalities by Accident Type
+
+```{r}
+data_clean$number_of_fatalities <- as.numeric(data_clean$number_of_fatalities)
+
+
+p <- ggplot(data_clean, aes(x = number_of_fatalities)) +
+  geom_histogram(binwidth = 1, fill = "purple", color = "black") +
+  labs(title = "Distribution of Fatalities per Accident", 
+       x = "Number of Fatalities", 
+       y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
+
+
+ggplotly(p)
+```
+
+This chart illustrates the distribution of fatalities per road accident in Thailand from 2019 to 2022. The chart is a histogram, with the X-axis representing the number of fatalities per accident (Number of Fatalities) and the Y-axis representing the number of accidents (Count). From the chart, we can observe the following:
+
+-   The vast majority of accidents (over 60,000) result in 0 fatalities, indicating that most accidents do not lead to deaths.
+
+-   Accidents with 1 fatality account for around 5,000 incidents, while those with 2 or more fatalities are extremely rare, showing that fatal accidents are relatively uncommon.
+
+-   Overall, the fatality rate of road accidents in Thailand is low, with most accidents not resulting in any deaths.
+
+This chart indicates that the fatality rate of road accidents in Thailand is generally low, and fatal accidents are not common.
+
+#### 3.6.2 Injuries by Accident Type
+
+```{r}
+data_clean$number_of_injuries <- as.numeric(data_clean$number_of_injuries)
+
+
+p <- ggplot(data_clean, aes(x = number_of_injuries)) +
+  geom_histogram(binwidth = 1, fill = "orange", color = "black") +
+  labs(title = "Distribution of Injuries per Accident", 
+       x = "Number of Injuries", 
+       y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
+
+
+ggplotly(p)
+```
+
+This chart illustrates the distribution of injuries per road accident in Thailand from 2019 to 2022. The chart is a histogram, with the X-axis representing the number of injuries per accident (Number of Injuries) and the Y-axis representing the number of accidents (Count). From the chart, we can observe the following:
+
+-   The majority of accidents result in 0 to 2 injuries, with over 40,000 accidents causing no injuries at all.
+
+-   As the number of injuries increases, the number of corresponding accidents sharply declines. Accidents with more than 5 injuries are relatively rare.
+
+Overall, most road accidents in Thailand do not cause many injuries, indicating that the severity of accidents tends to be low in terms of injuries.
+
+### 3.7 Effect of Vehicle Type on Accident Outcomes
+
+#### 3.7.1 Distribution of Fatalities by Vehicle Type
+
+```{r}
+data_clean$vehicle_type <- as.factor(data_clean$vehicle_type)
+data_clean$number_of_fatalities <- as.numeric(data_clean$number_of_fatalities)
+
+
+p <- ggplot(data_clean, aes(x = vehicle_type, y = number_of_fatalities)) +
+  geom_boxplot(fill = "lightblue") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Fatalities by Vehicle Type", 
+       x = "Vehicle Type", 
+       y = "Number of Fatalities")
+
+
+ggplotly(p)
+```
+
+his chart illustrates the distribution of fatalities by vehicle type in road accidents in Thailand from 2019 to 2022. The chart is a box plot with individual data points, where the X-axis represents different vehicle types involved in accidents (Vehicle Type), and the Y-axis represents the number of fatalities (Number of Fatalities). From the chart, we can observe the following:
+
+-   Most vehicle types are associated with relatively low median fatalities per accident, typically between 0 and 2 deaths.
+
+-   However, certain vehicle types such as vans, large trucks with trailers, and 4-wheel pickup trucks show higher maximum fatalities, with some accidents involving more than 10 deaths.
+
+-   The spread of fatalities varies across vehicle types, indicating different levels of severity depending on the type of vehicle involved.
+
+Overall, while most accidents result in low fatality counts, specific vehicle types are linked to higher fatality risks in severe cases.
+
+#### 3.7.2 Distribution of Inhuries by Vehicle Type
+
+```{r}
+data_clean$vehicle_type <- as.factor(data_clean$vehicle_type)
+data_clean$number_of_injuries <- as.numeric(data_clean$number_of_injuries)
+
+
+p <- ggplot(data_clean, aes(x = vehicle_type, y = number_of_injuries)) +
+  geom_boxplot(fill = "lightblue") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Injuries by Vehicle Type", 
+       x = "Vehicle Type", 
+       y = "Number of Injuries")
+
+
+ggplotly(p)
+```
+
+This chart illustrates the distribution of injuries by vehicle type in road accidents in Thailand from 2019 to 2022. The chart is a box plot with individual data points, where the X-axis represents different vehicle types involved in accidents (Vehicle Type), and the Y-axis represents the number of injuries (Number of Injuries). From the chart, we can observe the following:
+
+-   Large passenger vehicles and vans are associated with the highest number of injuries in some accidents, with counts reaching up to 50.
+
+-   Most other vehicle types, such as motorcycles, pickup trucks, and passenger cars, show a wide range of injury numbers, though typically under 20 injuries per accident.
+
+-   The variability of injuries is significant across vehicle types, suggesting that injury severity greatly depends on the vehicle involved.
+
+This chart indicates that while many accidents involve only a few injuries, vehicles designed to carry more passengers tend to be involved in accidents with higher injury counts.
+
+## 4. Prototype
+
+![](Prototype.png)
+
+This prototype provides an interactive overview of road accidents in Thailand, categorized by time and vehicle type.
+
+-   The top section displays the **number of accidents by year**, allowing users to filter the data by selecting a specific year or month using the dropdown menus. This helps to identify temporal patterns in road accidents.
+
+-   The bottom section presents the **number of accidents by vehicle type**, showing which types of vehicles are most frequently involved in accidents. Users can interact with the filter on the right to explore data based on different factors.
+
+Overall, this dashboard offers a clear and customizable visualization of road accident trends over time and by vehicle category.
+
+## 5. Reference
+
+[**Take-home Exercise 3: Prototyping Modules for Visual Analytics Shiny Application**](https://isss608-ay2024-25jan.netlify.app/th_ex/th_ex03)
+
+[**Senior's website**](https://isss608-ay2024-suanern.netlify.app/)

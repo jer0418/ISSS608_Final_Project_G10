@@ -1,1 +1,11 @@
-/* css styles */
+.navbar-brand::before {
+  content: "";
+  display: inline-block;
+  background-image: url('images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 80px;      /* 可改为你想要的大小 */
+  height: 80px;
+  margin-right: 12px;
+  vertical-align: middle;
+}

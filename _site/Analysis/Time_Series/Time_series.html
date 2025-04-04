@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Time_series – ISSS608_Final_Project</title>
+<title>Time Series Analysis – Traffic_Accident</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -38,7 +72,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-ddd961a2510921635943dfbbd19534c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-bf19b75f51ea680c8de03e84aa65eabd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -78,8 +112,11 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/logo.png" alt="" class="navbar-logo">
+    </a>
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">ISSS608_Final_Project</span>
+    <span class="navbar-title">Traffic_Accident</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -106,8 +143,16 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-analysis">    
         <li>
-    <a class="dropdown-item" href="../../Analysis/Time_Series/Time_series.html">
+    <a class="dropdown-item" href="../../Analysis/Time_series/Time_series.html">
  <span class="dropdown-text">Time_series</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Analysis/EDA/EDA.html">
+ <span class="dropdown-text">EDA</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Analysis/Predictive_Analysis/Predictive_Analysis.html">
+ <span class="dropdown-text">Predictive_Analysis</span></a>
   </li>  
     </ul>
   </li>
@@ -119,23 +164,52 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><strong>1. Overview</strong></a></li>
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation"><strong>2. Data Preparation</strong></a>
+  <ul class="collapse">
+  <li><a href="#install-and-launch-r-packages" id="toc-install-and-launch-r-packages" class="nav-link" data-scroll-target="#install-and-launch-r-packages"><strong>2.1 Install and launch R packages</strong></a></li>
+  <li><a href="#importing-the-data" id="toc-importing-the-data" class="nav-link" data-scroll-target="#importing-the-data"><strong>2.2 Importing the data</strong></a></li>
+  <li><a href="#conventional-base-ts-object-versus-tibble-object" id="toc-conventional-base-ts-object-versus-tibble-object" class="nav-link" data-scroll-target="#conventional-base-ts-object-versus-tibble-object"><strong>2.3 Conventional base <code>ts</code> object versus <code>tibble</code> object</strong></a></li>
+  </ul></li>
+  <li><a href="#time-series-with-province-on-traffic-accident" id="toc-time-series-with-province-on-traffic-accident" class="nav-link" data-scroll-target="#time-series-with-province-on-traffic-accident"><strong>3. Time series with province on traffic accident</strong></a>
+  <ul class="collapse">
+  <li><a href="#more-graphs-to-check" id="toc-more-graphs-to-check" class="nav-link" data-scroll-target="#more-graphs-to-check"><strong>More graphs to check</strong></a></li>
+  </ul></li>
+  <li><a href="#daily-lag-relationship-for-traffic-accident" id="toc-daily-lag-relationship-for-traffic-accident" class="nav-link" data-scroll-target="#daily-lag-relationship-for-traffic-accident"><strong>4. Daily lag relationship for Traffic Accident</strong></a></li>
+  <li><a href="#monthly-accident-type-with-province" id="toc-monthly-accident-type-with-province" class="nav-link" data-scroll-target="#monthly-accident-type-with-province"><strong>5. Monthly Accident type with Province</strong></a>
+  <ul class="collapse">
+  <li><a href="#step-1-user-selection" id="toc-step-1-user-selection" class="nav-link" data-scroll-target="#step-1-user-selection"><strong>Step 1: User selection</strong></a></li>
+  <li><a href="#step-2-data-preparation" id="toc-step-2-data-preparation" class="nav-link" data-scroll-target="#step-2-data-preparation"><strong>Step 2: Data Preparation</strong></a></li>
+  <li><a href="#step-3-visualize" id="toc-step-3-visualize" class="nav-link" data-scroll-target="#step-3-visualize"><strong>Step 3: Visualize</strong></a></li>
+  </ul></li>
+  <li><a href="#expected-shiny-application-model" id="toc-expected-shiny-application-model" class="nav-link" data-scroll-target="#expected-shiny-application-model"><strong>6. Expected Shiny Application Model</strong></a>
+  <ul class="collapse">
+  <li><a href="#by-province-only" id="toc-by-province-only" class="nav-link" data-scroll-target="#by-province-only"><strong>By Province Only</strong></a></li>
+  <li><a href="#daily-lag" id="toc-daily-lag" class="nav-link" data-scroll-target="#daily-lag"><strong>Daily Lag</strong></a></li>
+  <li><a href="#by-accident-type" id="toc-by-accident-type" class="nav-link" data-scroll-target="#by-accident-type"><strong>By Accident Type</strong></a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-page-left" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Time_series</h1>
+<h1 class="title">Time Series Analysis</h1>
 </div>
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -147,9 +221,272 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Time_series</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview"><strong>1. Overview</strong></h2>
+<p>In section will cover Time Series Analysis module of the R Shiny Application.</p>
+</section>
+<section id="data-preparation" class="level2">
+<h2 class="anchored" data-anchor-id="data-preparation"><strong>2. Data Preparation</strong></h2>
+<section id="install-and-launch-r-packages" class="level3">
+<h3 class="anchored" data-anchor-id="install-and-launch-r-packages"><strong>2.1 Install and launch R packages</strong></h3>
+<p>The project uses <code>p_load()</code> of pacman package to check if the R packages are installed in the computer.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, lubridate, tsibble, feasts, fable, ggridges)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p><strong>lubridate</strong> provides a collection to functions to parse and wrangle time and date data.</p></li>
+<li><p>tsibble, feasts, fable and fable.prophet are belong to <strong>tidyverts</strong>, a family of tidy tools for time series data handling, analysis and forecasting.</p>
+<ul>
+<li><p><strong>tsibble</strong> provides a data infrastructure for tidy temporal data with wrangling tools. Adapting the tidy data principles, tsibble is a data- and model-oriented object.</p></li>
+<li><p><strong>feasts</strong> provides a collection of tools for the analysis of time series data. The package name is an acronym comprising of its key features: Feature Extraction And Statistics for Time Series.</p></li>
+<li><p><strong>fable</strong> is used for building and evaluating forecasting models, including ARIMA, exponential smoothing, and more, within a tidy modeling framework.</p></li>
+<li><p><strong>ggridges</strong> is used to create ridge density plots—ideal for visualizing the distribution of values (such as accident counts) across categories like provinces or years.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="importing-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="importing-the-data"><strong>2.2 Importing the data</strong></h3>
+<p>First,&nbsp;<code>read_csv()</code>&nbsp;of&nbsp;<strong>readr</strong>&nbsp;package is used to import&nbsp;<em>visitor_arrivals_by_air.csv</em>&nbsp;file into R environment. The imported file is saved an tibble object called&nbsp;<em>ts_data</em>.</p>
+<p>In the code chunk below,&nbsp;<code>ymd()</code>&nbsp;of&nbsp;<strong>lubridate</strong>&nbsp;package is used to convert data type of incident_datetime field from Character to Date and thus to year-month-day.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>thai_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/thai_road_accident_2019_2022.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">incident_datetime =</span> <span class="fu">parse_date_time</span>(incident_datetime, <span class="at">orders =</span> <span class="fu">c</span>(<span class="st">"ymd HMS"</span>, <span class="st">"ymd HM"</span>, <span class="st">"ymd"</span>)),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Date =</span> <span class="fu">as_date</span>(incident_datetime)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Date))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="conventional-base-ts-object-versus-tibble-object" class="level3">
+<h3 class="anchored" data-anchor-id="conventional-base-ts-object-versus-tibble-object"><strong>2.3 Conventional base <code>ts</code> object versus <code>tibble</code> object</strong></h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>daily_province_ts <span class="ot">&lt;-</span> thai_data <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Date), <span class="sc">!</span><span class="fu">is.na</span>(province_en)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Date, province_en, <span class="at">name =</span> <span class="st">"Total_Accident"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> Date, <span class="at">key =</span> province_en)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>daily_province_ts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tsibble: 45,624 x 3 [1D]
+# Key:       province_en [78]
+   Date       province_en   Total_Accident
+   &lt;date&gt;     &lt;chr&gt;                  &lt;int&gt;
+ 1 2019-01-01 Amnat Charoen              1
+ 2 2019-01-02 Amnat Charoen              2
+ 3 2019-01-09 Amnat Charoen              1
+ 4 2019-01-15 Amnat Charoen              1
+ 5 2019-01-16 Amnat Charoen              1
+ 6 2019-02-08 Amnat Charoen              2
+ 7 2019-02-11 Amnat Charoen              1
+ 8 2019-02-17 Amnat Charoen              1
+ 9 2019-02-18 Amnat Charoen              1
+10 2019-03-26 Amnat Charoen              2
+# ℹ 45,614 more rows</code></pre>
+</div>
+</div>
+<p>This step transforms the data into a tidy time series format using <code>tsibble</code>, counting daily accidents by province. The output shows that each row now represents the number of accidents on a specific day for a given province, which is ready for time series analysis.</p>
+</section>
+</section>
+<section id="time-series-with-province-on-traffic-accident" class="level2">
+<h2 class="anchored" data-anchor-id="time-series-with-province-on-traffic-accident"><strong>3. Time series with province on traffic accident</strong></h2>
+<p>In the later graph generation, I would be only selecting a few province to do demonstration here due to large amount of province provided in excel.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>daily_province_ts <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(province_en <span class="sc">==</span> <span class="st">"Bangkok"</span>, Date <span class="sc">&gt;=</span> <span class="st">"2021-01-01"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Total_Accident)) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Daily Accidents in Bangkok (2021–2023)"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Date"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Total Accidents"</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Time_series_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>From this chart, we can see that the daily number of traffic accidents in Bangkok shows a slight upward trend from 2021 to 2023. Although there’s a lot of day-to-day fluctuation, the overall number of accidents appears to be higher in 2023 compared to 2021, indicating a gradual increase. There’s no clear seasonal or periodic pattern—accidents occur quite randomly, but with a general tendency to rise over time.<br>
+</p>
+<section id="more-graphs-to-check" class="level3">
+<h3 class="anchored" data-anchor-id="more-graphs-to-check"><strong>More graphs to check</strong></h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>top_provinces <span class="ot">&lt;-</span> daily_province_ts <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(province_en) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(Total_Accident)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(total, <span class="at">n =</span> <span class="dv">12</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(province_en)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>daily_province_ts <span class="sc">%&gt;%</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(province_en <span class="sc">%in%</span> top_provinces) <span class="sc">%&gt;%</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Total_Accident)) <span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> province_en, <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Time_series_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br>
+Next we want to show all province but the result is too big so we set “n = 5” to show the top 5 province’s daily accident at this point.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>top_provinces <span class="ot">&lt;-</span> daily_province_ts <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(province_en) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(Total_Accident, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="at">order_by =</span> total, <span class="at">n =</span> <span class="dv">10</span>, <span class="at">with_ties =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(province_en)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>daily_province_ts <span class="sc">%&gt;%</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(province_en <span class="sc">%in%</span> top_provinces) <span class="sc">%&gt;%</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">year</span>(Date)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Total_Accident, <span class="at">y =</span> <span class="fu">reorder</span>(province_en, <span class="fu">desc</span>(province_en)), <span class="at">fill =</span> <span class="fu">as.factor</span>(year))) <span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges</span>(<span class="at">scale =</span> <span class="dv">2</span>, <span class="at">rel_min_height =</span> <span class="fl">0.01</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> year, <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Set2"</span>) <span class="sc">+</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_ridges</span>() <span class="sc">+</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Top 5 Provinces: Distribution of Daily Accidents"</span>,</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Daily Accident Count"</span>,</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="cn">NULL</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Picking joint bandwidth of 0.396</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Picking joint bandwidth of 0.425</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Picking joint bandwidth of 0.459</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Picking joint bandwidth of 0.447</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Time_series_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In the shiny app, we will have a place to show the all the distribution of daily accident for each by selecting province. We will also have a scroll bar to allow the user observe the province’s daily accident based on different year</p>
+</section>
+</section>
+<section id="daily-lag-relationship-for-traffic-accident" class="level2">
+<h2 class="anchored" data-anchor-id="daily-lag-relationship-for-traffic-accident"><strong>4. Daily lag relationship for Traffic Accident</strong></h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>lag_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">60</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (lag_val <span class="cf">in</span> lag_values) {</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> daily_province_ts <span class="sc">%&gt;%</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(province_en <span class="sc">==</span> <span class="st">"Bangkok"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill_gaps</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ACF</span>(Total_Accident, <span class="at">lag_max =</span> lag_val) <span class="sc">%&gt;%</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">autoplot</span>() <span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"ACF of Daily Accidents in Bangkok (lag ="</span>, lag_val, <span class="st">")"</span>),</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Lag (days)"</span>,</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"ACF"</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(p)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Time_series_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Time_series_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Time_series_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This ACF plot shows the correlation between daily traffic accidents in Bangkok and their past values over a 60-day period. The x-axis shows the lag in days (how many days back), and the y-axis shows the autocorrelation (ACF). Bars that cross the blue dashed lines are statistically significant. We can see mild short-term correlation in the first 10 lags, but overall ACF values are low, indicating weak memory in the data. In the final Shiny app, users will be able to choose the province and lag window themselves. The lag setting controls how far back we look for patterns, and the ACF helps detect trends or seasonality in the data.</p>
+</section>
+<section id="monthly-accident-type-with-province" class="level2">
+<h2 class="anchored" data-anchor-id="monthly-accident-type-with-province"><strong>5. Monthly Accident type with Province</strong></h2>
+<p>When conducting time series analysis, we are not only interested in the overall trend of accident counts over time but also in how different types of accidents vary across specific time periods. Focusing on a particular province and year, analyzing how accident types evolve month by month can help identify high-risk periods, uncover recurring patterns, and support decision-making in areas such as policy planning or resource allocation. To achieve this analytical goal, we break the process into three main steps: starting from user input, transforming the data accordingly, and ultimately generating a time series visualization that is both interactive and informative.</p>
+<section id="step-1-user-selection" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-user-selection"><strong>Step 1: User selection</strong></h3>
+<p>In the first step, we simulate user input by assigning values to <code>province_choice</code> and <code>year_choice</code>, which determine the scope of the analysis. These inputs specify the province and year the user wants to explore. In a static R script, we set them manually, but in a Shiny app, these values will be dynamically chosen by the user via dropdown menus or other UI elements. These inputs form the foundation for filtering the dataset in the following steps.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>province_choice <span class="ot">&lt;-</span> <span class="st">"Bangkok"</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>year_choice <span class="ot">&lt;-</span> <span class="dv">2022</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-2-data-preparation" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-data-preparation"><strong>Step 2: Data Preparation</strong></h3>
+<p>The second step involves preparing the dataset for time series analysis. We first create a <code>Month</code> variable that captures year and month using the <code>yearmonth()</code> function, and extract the year for filtering purposes. Based on the selected province and year, we filter the dataset and then group the data by month and accident type. For each combination, we calculate the total number of accidents. This gives us a monthly breakdown of accident types within the chosen province and year. The result is then converted into a <code>tsibble</code> object, a tidy time series structure that supports downstream analysis and visualization. In a Shiny application, this step would typically be placed inside a <code>reactive()</code> expression that updates automatically based on user input.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>acc_ts <span class="ot">&lt;-</span> thai_data <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Month =</span> <span class="fu">yearmonth</span>(incident_datetime),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">year</span>(incident_datetime)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(province_en <span class="sc">==</span> province_choice, year <span class="sc">==</span> year_choice) <span class="sc">%&gt;%</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Month, accident_type) <span class="sc">%&gt;%</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Total =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> Month, <span class="at">key =</span> accident_type)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-3-visualize" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-visualize"><strong>Step 3: Visualize</strong></h3>
+<p>In the third step, we visualize the processed data by plotting a time series graph that shows how each accident type changes over the months. The x-axis represents the months, the y-axis shows the number of accidents, and different lines (distinguished by color) represent different accident types. This visualization allows users to clearly observe trends, seasonal shifts, or sudden spikes in specific types of accidents. In a Shiny app, this plot would be rendered inside a <code>renderPlot()</code> function, updating dynamically whenever the user changes the selected province or year. The resulting chart enhances interpretability and provides valuable insights into accident dynamics over time.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(acc_ts, <span class="fu">aes</span>(<span class="at">x =</span> Month, <span class="at">y =</span> Total, <span class="at">color =</span> accident_type)) <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"Monthly Accident Types in"</span>, province_choice, <span class="st">"("</span>, year_choice, <span class="st">")"</span>),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Month"</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Accidents"</span>,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Accident Type"</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Time_series_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This chart shows the monthly number of different accident types in Bangkok for the year 2022. It reveals that <strong>rear-end collisions</strong> were the most common throughout the year, with noticeable spikes around mid and late 2022. <strong>Rollover/fallen on straight road</strong> and <strong>side collisions</strong> also occurred frequently but with less intensity. Other accident types remained relatively low and stable across the months, indicating a clear dominance of rear-end collisions in Bangkok’s traffic accidents during this period.</p>
+</section>
+</section>
+<section id="expected-shiny-application-model" class="level2">
+<h2 class="anchored" data-anchor-id="expected-shiny-application-model"><strong>6. Expected Shiny Application Model</strong></h2>
+<section id="by-province-only" class="level3">
+<h3 class="anchored" data-anchor-id="by-province-only"><strong>By Province Only</strong></h3>
+<p><img src="images/clipboard-572283866.png" class="img-fluid"></p>
+</section>
+<section id="daily-lag" class="level3">
+<h3 class="anchored" data-anchor-id="daily-lag"><strong>Daily Lag</strong></h3>
+<p><img src="images/clipboard-247534254.png" class="img-fluid"></p>
+</section>
+<section id="by-accident-type" class="level3">
+<h3 class="anchored" data-anchor-id="by-accident-type"><strong>By Accident Type</strong></h3>
+<p><img src="images/clipboard-2006045448.png" class="img-fluid"></p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

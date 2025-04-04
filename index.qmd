@@ -1,7 +1,1 @@
----
-title: "ISSS608_Final_Project"
----
-
-Singapore's Weather & Traffic Group Project
-
-![](images/Index.jpg){width="648"}
+<img src="images/CoverIndex.png" style="width:100%; margin:0; padding:0; display:block;"/>

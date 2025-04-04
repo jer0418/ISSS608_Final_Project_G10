@@ -2,31 +2,31 @@ project:
   type: website
 
 website:
-  title: "ISSS608_Final_Project"
+  title: "TRAFFIC_ACCIDENT"
   navbar:
     left:
       - href: index.qmd
         text: Home
-        
-      - about.qmd
-     
+      - href: about.qmd
+        text: About
       - href: Project_Proposal.qmd
         text: Project Proposal
-      
       - text: "Analysis"
         menu:
-          - text: "Time_series" 
-            href: "Analysis/Time_Series/Time_series.html"
-        
-        
+          - text: "Time_series"
+            href: "Analysis/Time_series/Time_series.html"
+          - text: "EDA"
+            href: "Analysis/EDA/EDA.html"
+          - text: "Predictive_Analysis"
+            href: "Analysis/Predictive_Analysis/Predictive_Analysis.html"
 
 format:
   html:
     theme:
-      - cosmo
+      - lux
       - brand
     css: styles.css
     toc: true
+    page-layout: full
 
 editor: visual
-
