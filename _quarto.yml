@@ -5,6 +5,9 @@ website:
   title: "TRAFFIC_ACCIDENT"
   navbar:
     left:
+      - text: "Shiny App"
+        href: https://jhyunkim.shinyapps.io/TRAFFIC_ACCIDENT_ANALYSIS_THAILAND/
+  
       - href: index.qmd
         text: Home
       - href: about.qmd
