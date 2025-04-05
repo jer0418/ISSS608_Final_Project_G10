@@ -1,0 +1,12 @@
+name: Shiny_App_EDA
+title: Shiny_App_EDA
+username: hyding
+account: hyding
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 14432812
+bundleId: 10057660
+url: https://hyding.shinyapps.io/Shiny_App_EDA/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

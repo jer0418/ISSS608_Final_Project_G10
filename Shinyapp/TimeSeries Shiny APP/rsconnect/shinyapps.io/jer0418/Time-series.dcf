@@ -1,0 +1,12 @@
+name: Time-series
+title: Time-series
+username: jer0418
+account: jer0418
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 14432801
+bundleId: 10060921
+url: https://jer0418.shinyapps.io/Time-series/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

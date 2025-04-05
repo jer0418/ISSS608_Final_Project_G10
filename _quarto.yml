@@ -1,12 +1,20 @@
 project:
   type: website
 
+resources:
+  - music/ProfKam.mp3
+  
 website:
   title: "TRAFFIC_ACCIDENT"
   navbar:
     left:
       - text: "Shiny App"
-        href: https://jhyunkim.shinyapps.io/TRAFFIC_ACCIDENT_ANALYSIS_THAILAND/
+        menu:
+          - text: "ShinyApp.io"
+            href: https://jhyunkim.shinyapps.io/TRAFFIC_ACCIDENT_ANALYSIS_THAILAND/
+          - text: "User Guide"
+            href: userGuide.pdf
+            
   
       - href: index.qmd
         text: Home
@@ -14,6 +22,10 @@ website:
         text: About
       - href: Project_Proposal.qmd
         text: Project Proposal
+      
+      - href: Poster.qmd
+        text: Poster
+        
       - text: "Analysis"
         menu:
           - text: "Time_series"
@@ -22,6 +34,9 @@ website:
             href: "Analysis/EDA/EDA.html"
           - text: "Predictive_Analysis"
             href: "Analysis/Predictive_Analysis/Predictive_Analysis.html"
+    right:  
+      - href: music.qmd
+        text: "Prof Kam Click This :D"
 
 format:
   html:
