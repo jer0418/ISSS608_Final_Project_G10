@@ -36,8 +36,8 @@ website:
             href: "Analysis/Predictive_Analysis/Predictive_Analysis.html"
         
     right:  
-      - href: Music.html
-        text: "Prof Kam Click This :D"
+      - text: "Prof Kam Click This :D"
+        href: Music.html
 
 format:
   html:
