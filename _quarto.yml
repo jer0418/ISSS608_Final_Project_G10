@@ -36,7 +36,7 @@ website:
             href: "Analysis/Predictive_Analysis/Predictive_Analysis.html"
         
     right:  
-      - href: music.html
+      - href: Music.qmd
         text: "Prof Kam Click This :D"
 
 format:
