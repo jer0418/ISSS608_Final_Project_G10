@@ -37,7 +37,7 @@ website:
         
     right:  
       - text: "Prof Kam Click This :D"
-        href: music.html
+        href: "SongforProf.html"
 
 format:
   html:
