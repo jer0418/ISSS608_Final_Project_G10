@@ -1,5 +1,6 @@
 ---
 title: "Time Series Analysis"
+author: "Jeremy Junpeng Liu"
 ---
 
 ## **1. Overview**
