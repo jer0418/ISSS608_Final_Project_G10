@@ -34,8 +34,9 @@ website:
             href: "Analysis/EDA/EDA.html"
           - text: "Predictive_Analysis"
             href: "Analysis/Predictive_Analysis/Predictive_Analysis.html"
+        
     right:  
-      - href: music.qmd
+      - href: music.html
         text: "Prof Kam Click This :D"
 
 format:
